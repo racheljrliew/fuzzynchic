@@ -29,12 +29,9 @@
         max-width: 800px;
         margin: 0px auto;
         padding: 10px;
-
         background: rgba(255, 255, 255, 0.25);
         border-radius: 14px;
-
         box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-        
       }
 
       p {
@@ -43,17 +40,54 @@
 
       figure {
         margin: 20px 0;
+        text-align: center;
       }
 
-      img {
-        max-width: 100%;
-        height: auto;
+      /* === PANORAMA VIEWER === */
+      .viewer {
+        width: 350px;
+        height: 350px;
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
         border-radius: 10px;
+      }
+
+      .viewer img {
+        height: 100%;
+        width: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: transform 0.3s ease;
+      }
+
+      /* arrow buttons */
+      .nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 8px 10px;
+        cursor: pointer;
+        border-radius: 8px;
+      }
+
+      .left {
+        left: 8px;
+      }
+
+      .right {
+        right: 8px;
       }
 
       figcaption {
         text-align: center;
         font-style: italic;
+        margin-top: 8px;
       }
 
       .back-button {
@@ -81,7 +115,17 @@
         </p>
 
         <figure>
-          <img src="images/poucheshistory.PNG" alt="Fuzzy N Chic Pouches Throughout The History">
+          <div class="viewer">
+            <button class="nav left" onclick="move(-150)">◀</button>
+            <button class="nav right" onclick="move(150)">▶</button>
+
+            <img
+              id="panorama"
+              src="images/poucheshistory.PNG"
+              alt="Fuzzy N Chic Pouches Throughout The History"
+            />
+          </div>
+
           <figcaption><i>Fuzzy N Chic Pouches Throughout The History</i></figcaption>
         </figure>
 
@@ -106,11 +150,32 @@
         </p>
       </article>
 
-      <br>
+      <br />
 
       <a class="back-button" href="index.html">
         Back to homepage
       </a>
     </div>
+
+    <script>
+      let x = 0;
+
+      function move(amount) {
+        const img = document.getElementById("panorama");
+
+        const viewerWidth = 350;
+        const imgWidth = img.offsetWidth;
+
+        x += amount;
+
+        const maxScroll = 0;
+        const minScroll = viewerWidth - imgWidth;
+
+        if (x > maxScroll) x = maxScroll;
+        if (x < minScroll) x = minScroll;
+
+        img.style.transform = `translateX(${x}px)`;
+      }
+    </script>
   </body>
 </html>
