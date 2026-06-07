@@ -149,6 +149,43 @@ font-family: Segoe UI, Helvetica, Arial, sans-serif;
   </div>
 
 </div>
+    
+  // counter start
+    <h2>Visitors: <span id="visits">Loading...</span></h2>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabaseUrl = "https://wskxrlugbademgwgggis.supabase.co/rest/v1/";
+const supabaseKey = "sb_publishable_qarxnf88vky3MaWIqnMq1g_QOK-LWud";
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// 1. Get current count
+const { data, error } = await supabase
+  .from('visits')
+  .select('count')
+  .eq('id', 1)
+  .single();
+
+if (error) {
+  console.error(error);
+}
+
+// 2. Increase it
+const newCount = data.count + 1;
+
+// 3. Update database
+await supabase
+  .from('visits')
+  .update({ count: newCount })
+  .eq('id', 1);
+
+// 4. Show on site
+document.getElementById("visits").innerText = newCount;
+</script>
+    //counter end
+    
 <br>
 <hr style="border: none; height: 2px; background-color: #B899B8;">
   
